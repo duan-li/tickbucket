@@ -22,6 +22,7 @@ Generate VS Code settings for Deno? [y/N] y
 $ cd supabase/
 $ npx supabase start # start supabase local development containers
 $ npx supabase stop # stop supabase local development containers
+$ npx supabase status # show local development detail
 ```
 
 # Install Supabase JavaScript client
