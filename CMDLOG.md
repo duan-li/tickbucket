@@ -16,3 +16,15 @@ $ npm install supabase --save-dev
 $ npx supabase init
 Generate VS Code settings for Deno? [y/N] y
 ```
+
+# Working with Supabase instance
+```
+$ cd supabase/
+$ npx supabase start # start supabase local development containers
+$ npx supabase stop # stop supabase local development containers
+```
+
+# Install Supabase JavaScript client
+```
+$ npm install @supabase/supabase-js
+```
