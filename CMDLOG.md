@@ -1,7 +1,7 @@
 
 # install and create next.js app
 ```
-npx create-next-app ./ --app --src-dir --use-npm --eslint  --ts
+$ npx create-next-app ./ --app --src-dir --use-npm --eslint  --ts
 
 ✔ Would you like to use Tailwind CSS? … No / Yes (No)
 ✔ Would you like to use Turbopack for `next dev`? … No / Yes (No)
@@ -11,6 +11,8 @@ npx create-next-app ./ --app --src-dir --use-npm --eslint  --ts
 # install supabase CLI
 
 ```
-npm install supabase --save-dev
-
+$ npm install supabase --save-dev
+# init supabase
+$ npx supabase init
+Generate VS Code settings for Deno? [y/N] y
 ```
