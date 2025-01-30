@@ -29,3 +29,8 @@ $ npx supabase status # show local development detail
 ```
 $ npm install @supabase/supabase-js
 ```
+
+# server-side rendering
+```
+$ npm install @supabase/ssr
+```
