@@ -9,5 +9,5 @@ export async function GET(request) {
   const supabase = getSupabaseCookiesUtilClient();
   const buckets = await supabase.storage.listBuckets();
 
-  return NextResponse.json(buckets);
+  return NextResponse.json({ bucket: buckets });
 }

@@ -16,7 +16,7 @@ export default function PageWithServerAction() {
 
   return (
     <>
-      <h2>Supabase with Server Action</h2>
+      <h2>Supabase with Server Action (TS)</h2>
       <form action={serverActionWithSupabase}>
         <button type="submit">Run Server Action</button>
       </form>
