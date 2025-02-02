@@ -1,4 +1,5 @@
 import classes from "./TicketDetails.module.css";
+import { TicketComments } from "./TicketComments";
 
 export default function TicketDetailsPage({ params }) {
   return (
@@ -14,6 +15,8 @@ export default function TicketDetailsPage({ params }) {
         <h2>Ticket title should be here</h2>
       </header>
       <section>Some details about the ticket should be here.</section>
+
+      <TicketComments />
     </article>
   );
 }
