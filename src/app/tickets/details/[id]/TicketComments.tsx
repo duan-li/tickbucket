@@ -1,5 +1,7 @@
 "use client";
 import { useRef } from "react";
+import classes from "./TicketDetails.module.css";
+
 const comments = [
   {
     author: "Dave",
@@ -29,7 +31,16 @@ export function TicketComments() {
                 <button type="submit">Add comment</button>
               
       </form>
-            <section>We have {comments.length} comments.</section>
+            
+      <section>
+        {comments.map((comment) => (
+          <article key={comment.date} className={classes.comment}>
+            <strong>{comment.author} </strong>
+            <time>{comment.date}</time>
+            <p>{comment.content}</p>
+          </article>
+        ))}
+      </section>
           
     </footer>
   );
