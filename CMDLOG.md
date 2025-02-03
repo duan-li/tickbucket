@@ -34,3 +34,9 @@ $ npm install @supabase/supabase-js
 ```
 $ npm install @supabase/ssr
 ```
+
+
+# install `@tabler/icons-react`
+```
+$ npm install @tabler/icons-react
+```
