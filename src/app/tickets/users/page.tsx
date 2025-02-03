@@ -7,5 +7,33 @@ const users = [
   // ... add as much users as you want
 ];
 export default function UserList() {
-  return <div>We have {users.length} users</div>;
+  return (
+    <table>
+        
+      <thead>
+           
+        <tr>
+              <th>Name</th>
+              <th>Job</th>   
+        </tr>
+          
+      </thead>
+        
+      <tbody>
+           
+        {users.map((user) => (
+          <tr key={user.name}>
+                 
+            <td>
+                    {user.name}
+                    ({user.isAvailable ? "Available" : "Not available"})      
+            </td>
+                 <td>{user.job}</td>
+                
+          </tr>
+        ))}
+          
+      </tbody>
+    </table>
+  );
 }
