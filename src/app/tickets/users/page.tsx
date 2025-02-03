@@ -1,10 +1,19 @@
 const users = [
   {
+    name: "Harry Green",
+    job: "QA Engineer",
+    isAvailable: false,
+  },
+  {
+    name: "Trudy Torres",
+    job: "Project Manager",
+    isAvailable: true,
+  },
+  {
     name: "Alice Ling",
     job: "Software Engineer",
     isAvailable: false,
   },
-  // ... add as much users as you want
 ];
 export default function UserList() {
   return (
