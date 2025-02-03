@@ -9,30 +9,21 @@ const users = [
 export default function UserList() {
   return (
     <table>
-        
       <thead>
-           
         <tr>
-              <th>Name</th>
-              <th>Job</th>   
+          <th>Name</th>
+          <th>Job</th>
         </tr>
-          
       </thead>
-        
       <tbody>
-           
         {users.map((user) => (
           <tr key={user.name}>
-                 
             <td>
-                    {user.name}
-                    ({user.isAvailable ? "Available" : "Not available"})      
+              {user.name}({user.isAvailable ? "Available" : "Not available"})
             </td>
-                 <td>{user.job}</td>
-                
+            <td>{user.job}</td>
           </tr>
         ))}
-          
       </tbody>
     </table>
   );
