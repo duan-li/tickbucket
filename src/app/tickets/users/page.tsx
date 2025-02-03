@@ -1,3 +1,5 @@
+import { IconCheck, IconUserOff } from "@tabler/icons-react";
+
 const users = [
   {
     name: "Harry Green",
@@ -27,8 +29,8 @@ export default function UserList() {
       <tbody>
         {users.map((user) => (
           <tr key={user.name}>
-            <td>
-              {user.name}({user.isAvailable ? "Available" : "Not available"})
+            <td style={{ color: !user.isAvailable ? "red" : undefined }}>
+              {user.isAvailable ? <IconCheck /> : <IconUserOff />} {user.name}
             </td>
             <td>{user.job}</td>
           </tr>
