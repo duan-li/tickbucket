@@ -1,9 +1,8 @@
-import { getSupabaseReqResClient } from "@/supabase-utils/reqResClient";
+import { NextResponse } from "next/server";
 
-export async function middleware(request) {
-  const { supabase, response } = getSupabaseReqResClient({ request });
-
-  return response.value;
+export async function middleware(req) {
+  const res = NextResponse.next();
+  return res;
 }
 
 export const config = {
