@@ -9,8 +9,14 @@ export async function middleware(req) {
   const sessionUser = session.data?.session?.user;
 
   if (requestedPath.startsWith("/tickets")) {
-    if (!sessionUser) {
-      return NextResponse.redirect(new URL("/login", req.url));
+    if (requestedPath.startsWith("/tickets")) {
+      if (!sessionUser) {
+        return NextResponse.redirect(new URL("/login", req.url));
+      }
+    } else if (requestedPath === "/login") {
+      if (sessionUser) {
+        return NextResponse.redirect(new URL("/tickets", req.url));
+      }
     }
   }
   return response.value;
