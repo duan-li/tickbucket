@@ -13,6 +13,8 @@ export const Login = ({ isPasswordLogin }) => {
   const passwordInputRef = useRef(null);
   return (
     <form
+      method="POST"
+      action="/auth/pw-login"
       onSubmit={(event) => {
         // By using event.preventDefault(), we prevent the page from reloading, and then, depending on the state,
         // we know whether the user wants to log in via a password or a magic link.
