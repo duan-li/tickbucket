@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "reset": "npx supabase stop; docker volume rm $(docker volume ls --format '{{.Name}}' --filter label=com.supabase.cli.project=supabase_book); npx supabase start",
+    "up": "npx supabase start",
+    "down": "npx supabase stop",
+    "status": "npx supabase status",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
