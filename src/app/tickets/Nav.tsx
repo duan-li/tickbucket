@@ -18,7 +18,7 @@ export default function Nav() {
     } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("onAuthStateChange", event);
       if (event === "SIGNED_OUT") {
-        router.push("/");
+        router.push("/tickets");
       }
     });
 

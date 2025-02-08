@@ -1,28 +1,48 @@
 // Login compontent (UI).
 "use client";
 import Link from "next/link";
+import { getSupabaseBrowserClient } from "@/supabase-utils/browserClient";
+
 /**
 Next, we want to store a reference to both the email and password input elements so that we can access the values the user entered
 when submitting them. Saving the input references will be done using useRef(), and we require the Login component to be a Client
 component.
 */
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 
 export const Login = ({ isPasswordLogin }) => {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
+  const supabase = getSupabaseBrowserClient();
+  const router = useRouter();
+
   return (
     <form
       method="POST"
-      action="/auth/pw-login"
+      action={isPasswordLogin ? "/auth/pw-login" : "/auth/magic-link"}
       onSubmit={(event) => {
         // By using event.preventDefault(), we prevent the page from reloading, and then, depending on the state,
         // we know whether the user wants to log in via a password or a magic link.
-        event.preventDefault();
+        isPasswordLogin && event.preventDefault();
+
         if (isPasswordLogin) {
-          alert("User wants to login with password");
-        } else {
-          alert("User wants to login with magic link");
+          supabase.auth
+            .signInWithPassword({
+              email: emailInputRef.current.value,
+              password: passwordInputRef.current.value,
+            })
+            .then((result) => {
+              !result.data?.user && alert("Could not sign in"); // new version
+
+              /** old version:
+                      if (result.data?.user) {
+                        router.push("/tickets");
+                      } else {
+                        alert("Could not sign in");
+                      }
+                      */
+            });
         }
       }}
     >

@@ -9,19 +9,17 @@ export async function POST(request) {
   // Step 2:
   const supabase = getSupabaseCookiesUtilClient();
   // Step 3:
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithOtp({
     email,
-    password,
+    options: { shouldCreateUser: false },
   });
   // Step 4:
-  const userData = data?.user;
-  if (error || !userData) {
+  if (error) {
     return NextResponse.redirect(
-      new URL("/error?type=login-failed", request.url),
-      { status: 302 },
+      new URL("/error?type=magiclink", request.url),
+      302,
     );
   }
-  return NextResponse.redirect(new URL("/tickets", request.url), {
-    status: 302,
-  });
+  const thanksUrl = new URL("/magic-thanks", request.url);
+  return NextResponse.redirect(thanksUrl, 302);
 }
