@@ -9,9 +9,9 @@ export async function POST(request) {
   // Step 2:
   const supabase = getSupabaseCookiesUtilClient();
   // Step 3:
-  const { data, error } = await supabase.auth.signInWithOtp({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
-    options: { shouldCreateUser: false },
+    password,
   });
   // Step 4:
   if (error) {

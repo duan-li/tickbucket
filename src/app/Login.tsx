@@ -2,25 +2,43 @@
 "use client";
 import Link from "next/link";
 import { getSupabaseBrowserClient } from "@/supabase-utils/browserClient";
-
+import { FORM_TYPES } from "./formTypes";
 /**
 Next, we want to store a reference to both the email and password input elements so that we can access the values the user entered
 when submitting them. Saving the input references will be done using useRef(), and we require the Login component to be a Client
 component.
 */
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-export const Login = ({ isPasswordLogin }) => {
+export const Login = ({ formType = "pw-login" }) => {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
   const supabase = getSupabaseBrowserClient();
   const router = useRouter();
 
+  const isPasswordRecovery = formType === FORM_TYPES.PASSWORD_RECOVERY;
+  const isPasswordLogin = formType === FORM_TYPES.PASSWORD_LOGIN;
+  const isMagicLinkLogin = formType === FORM_TYPES.MAGIC_LINK;
+
+  const formAction = isPasswordLogin ? `/auth/pw-login` : `/auth/magic-link`;
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN") {
+        router.push("/tickets");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <form
       method="POST"
-      action={isPasswordLogin ? "/auth/pw-login" : "/auth/magic-link"}
+      action={formAction}
       onSubmit={(event) => {
         // By using event.preventDefault(), we prevent the page from reloading, and then, depending on the state,
         // we know whether the user wants to log in via a password or a magic link.
@@ -46,8 +64,14 @@ export const Login = ({ isPasswordLogin }) => {
         }
       }}
     >
+      {isPasswordRecovery && (
+        <input type="hidden" name="type" value="recovery" />
+      )}
       <article style={{ maxWidth: "480px", margin: "auto" }}>
-        <header>Login</header>
+        <header>
+          {isPasswordRecovery && <strong>Request new password</strong>}
+          {!isPasswordRecovery && <strong>Login</strong>}
+        </header>
         <fieldset>
           {/* both elements, apply ref accordingly. So, for the email input, type <input ref={emailInputRef} type="email" name="email" id="email" required />, */}
           {/*  and do the same for the password input field. */}
@@ -95,9 +119,59 @@ export const Login = ({ isPasswordLogin }) => {
           )}
         </p>
         <button type="submit">
-          Sign in with
-          {isPasswordLogin ? " Password" : " Magic Link"}
+          {isPasswordLogin && "Sign in with Password"}
+          {isPasswordRecovery && "Request new password"}
+          {isMagicLinkLogin && "Sign in with Magic Link"}
         </button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            flexDirection: "column",
+            gap: "6px",
+            marginBottom: "20px",
+          }}
+        >
+          {!isPasswordLogin && (
+            <Link
+              role="button"
+              className="contrast"
+              href={{
+                pathname: "/",
+                query: { magicLink: "no" },
+              }}
+            >
+              Go to Password Login
+            </Link>
+          )}
+          {!isMagicLinkLogin && (
+            <Link
+              role="button"
+              className="contrast"
+              href={{
+                pathname: "/",
+                query: { magicLink: "yes" },
+              }}
+            >
+              Go to Magic Link Login
+            </Link>
+          )}
+        </div>
+
+        {!isPasswordRecovery && (
+          <Link
+            href={{
+              pathname: "/",
+              query: { passwordRecovery: "yes" },
+            }}
+            style={{
+              textAlign: "center",
+              display: "block",
+            }}
+          >
+            Go to Password Recovery
+          </Link>
+        )}
       </article>
     </form>
   );
