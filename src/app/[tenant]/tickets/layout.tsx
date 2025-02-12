@@ -9,7 +9,7 @@ export default function TicketsLayout(pageProps) {
         <TenantName tenantName="Packt" />
 
         {/* navigation component goes here */}
-        <Nav />
+        <Nav tenant={pageProps.params.tenant} />
       </section>
       <section>{pageProps.children}</section>
     </>

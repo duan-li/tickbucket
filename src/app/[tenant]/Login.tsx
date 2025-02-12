@@ -11,7 +11,7 @@ component.
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-export const Login = ({ formType = "pw-login" }) => {
+export const Login = ({ formType = "pw-login", tenant, tenantName }) => {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
   const supabase = getSupabaseBrowserClient();
@@ -71,6 +71,9 @@ export const Login = ({ formType = "pw-login" }) => {
         <header>
           {isPasswordRecovery && <strong>Request new password</strong>}
           {!isPasswordRecovery && <strong>Login</strong>}
+          <div style={{ display: "block", fontSize: "0.7em" }}>
+            {tenantName}
+          </div>
         </header>
         <fieldset>
           {/* both elements, apply ref accordingly. So, for the email input, type <input ref={emailInputRef} type="email" name="email" id="email" required />, */}

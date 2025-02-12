@@ -40,3 +40,12 @@ $ npm install @supabase/ssr
 ```
 $ npm install @tabler/icons-react
 ```
+
+
+# DB
+
+```
+npx supabase db dump --local --data-only --file=supabase/seed.sql
+
+npx supabase db diff --local -f my_initial_structure
+```
