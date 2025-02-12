@@ -4,8 +4,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   redirects: async () => [
     {
-      source: "/logout",
-      destination: "/auth/logout",
+      source: "/:tenant/logout",
+      destination: "/:tenant/auth/logout",
       permanent: true,
     },
   ],
