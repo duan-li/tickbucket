@@ -1,12 +1,31 @@
 
 # install and create next.js app
 ```
-$ npx create-next-app ./ --app --src-dir --use-npm --eslint  --ts
+$ npx create-next-app ./ --app --use-npm --eslint  --ts
 
 ✔ Would you like to use Tailwind CSS? … No / Yes (No)
 ✔ Would you like to use Turbopack for `next dev`? … No / Yes (No)
 ✔ Would you like to customize the import alias (`@/*` by default)? … No / Yes (No)
 ```
+
+Above cmd will create src directory to contain app directory. 
+
+Following cmd will create only app directory.
+
+```
+npx create-next-app ./ --app --use-npm --eslint  --ts
+
+Need to install the following packages:
+create-next-app@15.1.7
+Ok to proceed? (y) 
+
+✔ Would you like to use Tailwind CSS? … No / Yes (No)
+✔ Would you like your code inside a `src/` directory? … No / Yes (No)
+✔ Would you like to use Turbopack for `next dev`? … No / Yes (No)
+✔ Would you like to customize the import alias (`@/*` by default)? … No / Yes (No)
+Creating a new Next.js app in /Users/duan/Codes/GitHub/tickbucket/tmp.
+```
+
 
 # install supabase CLI
 
