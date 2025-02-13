@@ -17,11 +17,11 @@ export async function middleware(req) {
 
   if (applicationPath.startsWith("/tickets")) {
     if (!sessionUser) {
-      return NextResponse.redirect(new URL(`/${tenant}/`, req.url));
+      // return NextResponse.redirect(new URL(`/${tenant}/`, req.url));
     }
   } else if (applicationPath === "/") {
     if (sessionUser) {
-      return NextResponse.redirect(new URL(`/${tenant}/tickets`, req.url));
+      // return NextResponse.redirect(new URL(`/${tenant}/tickets`, req.url));
     }
   }
 
