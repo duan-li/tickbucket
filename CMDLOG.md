@@ -68,3 +68,17 @@ npx supabase db dump --local --data-only --file=supabase/seed.sql
 
 npx supabase db diff --local -f my_initial_structure
 ```
+
+
+# create policy
+
+```
+create policy "allow select on public.tenants"
+on "public"."tenants"
+as PERMISSIVE
+for SELECT
+to public
+using (
+    true
+);
+```

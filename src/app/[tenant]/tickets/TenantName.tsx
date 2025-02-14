@@ -1,9 +1,8 @@
 import { getSupabaseCookiesUtilClient } from "@/supabase-utils/cookiesUtilClient";
-import { getSupabaseAdminClient } from "@/supabase-utils/adminClient";
 
 export default async function TenantName({ tenant }) {
   let tenantName = "Unknown";
-  const supabase = getSupabaseAdminClient();
+  const supabase = getSupabaseCookiesUtilClient();
 
   const selection = await supabase
     .from("tenants")
