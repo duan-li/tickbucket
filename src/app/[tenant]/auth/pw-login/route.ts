@@ -6,6 +6,7 @@ export async function POST(request) {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
+  console.log({email, password})
   // Step 2:
   const supabase = getSupabaseCookiesUtilClient();
   // Step 3:
