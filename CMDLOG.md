@@ -108,3 +108,47 @@ using (
 );
 
 ```
+
+# policy for three tables.
+
+## `service_users`
+
+```
+supabase_user = auth.uid()
+```
+
+## `tenant_permissions`
+
+```
+EXISTS (
+  SELECT FROM service_users su
+   WHERE su.id = tenant_permissions.service_user
+   AND su.supabase_user = auth.uid()
+)
+```
+
+also can be 
+
+```
+EXISTS (
+  SELECT FROM service_users su
+  WHERE su.id = tenant_permissions.service_user
+)
+```
+
+## `tenants`
+
+```
+EXISTS (
+ SELECT FROM tenant_permissions tp
+  WHERE tp.tenant = tenants.id
+   AND
+   EXISTS (
+     SELECT FROM service_users su
+      WHERE
+       su.id = tp.service_user
+       AND
+       su.supabase_user = auth.uid()
+   )
+)
+```
