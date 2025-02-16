@@ -82,3 +82,29 @@ using (
     true
 );
 ```
+
+# update policy
+```
+create policy "allow select on public.tenants"
+on "public"."tenants"
+as PERMISSIVE
+for SELECT
+to public
+using (
+    EXISTS (
+    SELECT FROM
+    tenant_permissions tp
+    WHERE
+    tp.tenant = tenants.id
+    AND
+    EXISTS (
+        SELECT FROM service_users su
+        WHERE
+        su.id = tp.service_user
+        AND
+        su.supabase_user = auth.uid()
+    )
+    )
+);
+
+```
