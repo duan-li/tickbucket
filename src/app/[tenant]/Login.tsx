@@ -10,6 +10,7 @@ component.
 */
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { urlPath } from "@/utils/url-helpers";
 
 export const Login = ({ formType = "pw-login", tenant, tenantName }) => {
   const emailInputRef = useRef(null);
@@ -21,14 +22,20 @@ export const Login = ({ formType = "pw-login", tenant, tenantName }) => {
   const isPasswordLogin = formType === FORM_TYPES.PASSWORD_LOGIN;
   const isMagicLinkLogin = formType === FORM_TYPES.MAGIC_LINK;
 
-  const formAction = isPasswordLogin ? `/auth/pw-login` : `/auth/magic-link`;
+  const getPath = (subPath) => urlPath(subPath ?? "", tenant);
+
+  const formAction = getPath(
+    isPasswordLogin ? `/auth/pw-login` : `/auth/magic-link`,
+  );
+
+  const loginBasePath = getPath("/");
 
   useEffect(() => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN") {
-        router.push("/tickets");
+        router.push(getPath("/tickets"));
       }
     });
 
@@ -140,7 +147,7 @@ export const Login = ({ formType = "pw-login", tenant, tenantName }) => {
               role="button"
               className="contrast"
               href={{
-                pathname: "/",
+                pathname: loginBasePath,
                 query: { magicLink: "no" },
               }}
             >
@@ -152,7 +159,7 @@ export const Login = ({ formType = "pw-login", tenant, tenantName }) => {
               role="button"
               className="contrast"
               href={{
-                pathname: "/",
+                pathname: loginBasePath,
                 query: { magicLink: "yes" },
               }}
             >
@@ -164,7 +171,7 @@ export const Login = ({ formType = "pw-login", tenant, tenantName }) => {
         {!isPasswordRecovery && (
           <Link
             href={{
-              pathname: "/",
+              pathname: loginBasePath,
               query: { passwordRecovery: "yes" },
             }}
             style={{

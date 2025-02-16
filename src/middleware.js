@@ -11,17 +11,21 @@ export async function middleware(req) {
   const [tenant, ...restOfPath] = requestedPath.substr(1).split("/");
   const applicationPath = "/" + restOfPath.join("/");
 
+  console.log({restOfPath, applicationPath, tenant})
+
   if (!/[a-z0-9-_]+/.test(tenant)) {
     return NextResponse.rewrite(new URL("/not-found", req.url));
   }
 
   if (applicationPath.startsWith("/tickets")) {
     if (!sessionUser) {
-      return NextResponse.redirect(new URL(`/${tenant}/`, req.url));
+      return NextResponse.redirect(new URL(`/${tenant}/login`, req.url));
     }
   } else if (applicationPath === "/") {
     if (sessionUser) {
       return NextResponse.redirect(new URL(`/${tenant}/tickets`, req.url));
+    } else {
+      return NextResponse.redirect(new URL(`/${tenant}/login`, req.url));
     }
   }
 
