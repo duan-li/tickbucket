@@ -152,3 +152,15 @@ EXISTS (
    )
 )
 ```
+
+# Update user
+
+```sql
+UPDATE auth.users
+  SET raw_app_meta_data = '{"provider": "email","providers": ["email"],"tenants": ["packt", "oddmonkey"]}'
+  WHERE id='THE_AUTH_USER_ID_YOU_COPIED';
+
+UPDATE auth.users
+  SET raw_app_meta_data = '{"provider": "email","providers": ["email"],"tenants": ["packt", "oddmonkey"]}'
+  WHERE id='THE_AUTH_USER_ID_YOU_COPIED';
+```
