@@ -162,5 +162,11 @@ UPDATE auth.users
 
 UPDATE auth.users
   SET raw_app_meta_data = '{"provider": "email","providers": ["email"],"tenants": ["packt", "oddmonkey"]}'
-  WHERE id='THE_AUTH_USER_ID_YOU_COPIED';
+  WHERE id='d01fe22a-f926-45dc-9237-e402110740b7';
+```
+
+# Understanding the auth.jwt() function
+
+```sql
+SELECT auth.jwt();
 ```
