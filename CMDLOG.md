@@ -169,4 +169,8 @@ UPDATE auth.users
 
 ```sql
 SELECT auth.jwt();
+
+SELECT auth.jwt() -> 'app_metadata'; 
+
+SELECT (auth.jwt() -> 'app_metadata' -> 'tenants') ? 'packt';
 ```
