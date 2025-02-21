@@ -14,11 +14,16 @@ export async function POST(request) {
     email,
     password,
   });
+  const userData = data?.user;
+
   // Step 4:
-  if (error) {
-    return NextResponse.redirect(
-      new URL("/error?type=magiclink", request.url),
-      302,
+  if (error ||
+    !userData ||
+    !userData.app_metadata?.tenants.includes(params.tenant)) {
+      await supabase.auth.signOut();
+      return NextResponse.redirect(
+        new URL("/error?type=magiclink", request.url),
+        302,
     );
   }
   const thanksUrl = new URL("/magic-thanks", request.url);
