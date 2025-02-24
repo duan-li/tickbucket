@@ -28,12 +28,24 @@ export async function POST(request, { params }) {
 
     const supabaseAdmin = getSupabaseAdminClient();
     const { data, error } = await supabaseAdmin
-        .from("tenants")
-        .select("*")
-        .eq("id", tenant)
-        .eq("domain", emailHost)
-        .single();
-      
+    .from("tenants")
+    .select("*")
+    .eq("id", tenant)
+    .eq("domain", emailHost)
+    .single();
+
+    const safeEmailString = encodeURIComponent(email);
+    
+    if (error) {
+        return NextResponse.redirect(
+        buildUrl(
+            `/error?type=register_mail_mismatch&email=${safeEmailString}`,
+            tenant,
+            request,
+        ),
+        302,
+        );
+    }
     return Response.json({ email, password, tenant, emailHost });
 
     // return Response.json({ email, password, tenant });
