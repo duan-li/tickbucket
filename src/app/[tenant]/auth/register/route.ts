@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { buildUrl } from "@/utils/url-helpers";
 import { getSupabaseAdminClient } from "@/supabase-utils/adminClient";
+import { sendOTPLink } from "@/utils/sendOTPLink";
 
 export async function POST(request, { params }) {
     const formData = await request.formData();
@@ -97,8 +98,6 @@ export async function POST(request, { params }) {
         return NextResponse.redirect(buildUrl("/error", tenant, request), 302);
     }
 
-
+    // await sendOTPLink(email, "signup", tenant, request);
     return Response.json({ email, password, tenant, emailHost });
-
-    // return Response.json({ email, password, tenant });
 }
