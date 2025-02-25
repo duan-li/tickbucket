@@ -37,6 +37,12 @@ export default function ErrorPage({ searchParams, params }) {
           <u>{searchParams.email}</u>.
         </strong>
       )}
+      {type === "register_unknown" && (
+        <strong>
+          Sorry but an unknown error occurred when trying to create 
+          an account.
+        </strong>
+      )}
       {!knownErrors.includes(type) && (
         <strong>
           Something went wrong. Please try again or contact support.

@@ -35,7 +35,7 @@ export async function POST(request, { params }) {
     .single();
 
     const safeEmailString = encodeURIComponent(email);
-    
+
     if (error) {
         return NextResponse.redirect(
         buildUrl(
@@ -45,6 +45,35 @@ export async function POST(request, { params }) {
         ),
         302,
         );
+    }
+
+    const { data: userData, error: userError } =
+    await supabaseAdmin.auth.admin.createUser({
+      email,
+      password,
+
+      app_metadata: {
+        tenants: [tenant],
+      },
+    });
+
+    if (userError) {
+        const userExists = userError.message.includes("already been registered");
+        if (userExists) {
+        return NextResponse.redirect(
+            buildUrl(
+            `/error?type=register_mail_exists&email=${safeEmailString}`,
+            tenant,
+            request,
+            ),
+            302,
+        );
+        } else {
+        return NextResponse.redirect(
+            buildUrl("/error?type=register_unknown", tenant, request),
+            302,
+        );
+        }
     }
     return Response.json({ email, password, tenant, emailHost });
 
