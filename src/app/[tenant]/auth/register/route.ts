@@ -75,6 +75,29 @@ export async function POST(request, { params }) {
         );
         }
     }
+
+    const { data: serviceUser } = await supabaseAdmin
+    .from("service_users")
+    .insert({
+      full_name: name,
+      supabase_user: userData.user.id,
+    })
+    .select()
+    .single();
+
+    const { error: tpError } = await supabaseAdmin
+    .from("tenant_permissions")
+    .insert({
+      tenant,
+      service_user: serviceUser?.id,
+    });
+
+    if (tpError) {
+        await supabaseAdmin.auth.admin.deleteUser(userData.user.id);
+        return NextResponse.redirect(buildUrl("/error", tenant, request), 302);
+    }
+
+
     return Response.json({ email, password, tenant, emailHost });
 
     // return Response.json({ email, password, tenant });
