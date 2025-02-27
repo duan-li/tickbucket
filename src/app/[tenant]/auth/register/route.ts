@@ -98,6 +98,6 @@ export async function POST(request, { params }) {
         return NextResponse.redirect(buildUrl("/error", tenant, request), 302);
     }
 
-    // await sendOTPLink(email, "signup", tenant, request);
+    await sendOTPLink(email, "signup", tenant, request);
     return Response.json({ email, password, tenant, emailHost });
 }
