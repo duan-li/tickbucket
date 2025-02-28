@@ -16,7 +16,7 @@ export default async function LoginPage({ searchParams, params: { tenant } }) {
     return notFound();
   }
 
-  const { name: tenantName } = data;
+  const { name: tenantName, domain: tenantDomain } = data;
 
   const wantsMagicLink = false; //searchParams.magicLink === "yes";
   const wantsPasswordRecovery = false; //searchParams.passwordRecovery === "yes";
@@ -28,5 +28,5 @@ export default async function LoginPage({ searchParams, params: { tenant } }) {
     formType = FORM_TYPES.PASSWORD_RECOVERY;
   }
 
-  return <Login formType={formType} tenant={tenant} tenantName={tenantName} />;
+  return <Login formType={formType} tenant={tenant} tenantName={tenantName} tenantDomain={tenantDomain} />;
 }
