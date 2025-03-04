@@ -16,6 +16,7 @@ export default function CreateTicket({ params }: { params: Promise<{ tenant: str
   const router = useRouter();
 
   useEffect(() => {
+    // Improving loading behavior after adding a ticket
     router.prefetch(urlPath(`/tickets/details/[id]`));
   }, [router]);
 
