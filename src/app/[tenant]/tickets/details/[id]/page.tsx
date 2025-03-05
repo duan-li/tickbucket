@@ -1,7 +1,18 @@
 import classes from "./TicketDetails.module.css";
 import { TicketComments } from "./TicketComments";
+import { getSupabaseCookiesUtilClient } from "@/supabase-utils/cookiesUtilClient";
 
-export default function TicketDetailsPage({ params }) {
+export default async function TicketDetailsPage({ params }) {
+  const supabase = getSupabaseCookiesUtilClient();
+
+  const id = Number(params.id);
+
+  const { data: ticket, error } = await supabase
+    .from("tickets")
+    .select("*")
+    .eq("id", id)
+    .single();
+
   return (
     <article className={classes.ticketDetails}>
       <header>
