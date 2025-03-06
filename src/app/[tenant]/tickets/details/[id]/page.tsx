@@ -1,5 +1,6 @@
 import classes from "./TicketDetails.module.css";
 import { TicketComments } from "./TicketComments";
+import { notFound } from "next/navigation";
 import { getSupabaseCookiesUtilClient } from "@/supabase-utils/cookiesUtilClient";
 
 export default async function TicketDetailsPage({ params }) {
@@ -13,19 +14,29 @@ export default async function TicketDetailsPage({ params }) {
     .eq("id", id)
     .single();
 
+  if (error) return notFound();
+
+  const {
+    created_at,
+    title,
+    description,
+    created_by,
+    status
+   } = ticket;
+
   return (
     <article className={classes.ticketDetails}>
       <header>
         <strong>#{params.id}</strong> -{" "}
-        <strong className={classes.ticketStatusGreen}>Open</strong>
+        <strong className={classes.ticketStatusGreen}>{status}</strong>
         <br />
         <small className={classes.authorAndDate}>
-          Created by <strong>AuthorName</strong> at{" "}
-          <time>December 10th 2025</time>
+          Created by <strong>{created_by}</strong> at{" "}
+          <time>{created_at}</time>
         </small>
-        <h2>Ticket title should be here</h2>
+        <h2>{title}</h2>
       </header>
-      <section>Some details about the ticket should be here.</section>
+      <section>{description}</section>
 
       <TicketComments />
     </article>
