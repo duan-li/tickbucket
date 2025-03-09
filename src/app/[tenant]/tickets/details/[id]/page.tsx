@@ -3,6 +3,7 @@ import { TicketComments } from "./TicketComments";
 import { notFound } from "next/navigation";
 import { getSupabaseCookiesUtilClient } from "@/supabase-utils/cookiesUtilClient";
 import { getSupabaseAdminClient } from "@/supabase-utils/adminClient";
+import { TICKET_STATUS } from "@/utils/constants";
 
 export default async function TicketDetailsPage({ params }) {
   const supabase = getSupabaseCookiesUtilClient();
@@ -33,7 +34,7 @@ export default async function TicketDetailsPage({ params }) {
     <article className={classes.ticketDetails}>
       <header>
         <strong>#{params.id}</strong> -{" "}
-        <strong className={classes.ticketStatusGreen}>{status}</strong>
+        <strong className={classes.ticketStatusGreen}>{TICKET_STATUS[status]}</strong>
         <br />
         <small className={classes.authorAndDate}>
           Created by <strong>{author_name} (ID: {created_by})</strong> at{" "}
