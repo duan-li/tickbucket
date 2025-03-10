@@ -2,12 +2,12 @@ import classes from "./TicketDetails.module.css";
 import { TicketComments } from "./TicketComments";
 import { notFound } from "next/navigation";
 import { getSupabaseCookiesUtilClient } from "@/supabase-utils/cookiesUtilClient";
-import { getSupabaseAdminClient } from "@/supabase-utils/adminClient";
+// import { getSupabaseAdminClient } from "@/supabase-utils/adminClient";
 import { TICKET_STATUS } from "@/utils/constants";
 
 export default async function TicketDetailsPage({ params }) {
   const supabase = getSupabaseCookiesUtilClient();
-  const adminSupabase = getSupabaseAdminClient();
+  // const adminSupabase = getSupabaseAdminClient();
 
   const id = Number(params.id);
 
