@@ -21,11 +21,12 @@ const dummyTickets = [
   },
 ];
 
-export default function TicketListPage() {
+export default function TicketListPage({params}) {
   return (
     <>
       <h2>Ticket List</h2>
-      <TicketList tickets={dummyTickets} />
+      {/* <TicketList tickets={dummyTickets} /> */}
+      <TicketList tenant={params.tenant} />
     </>
   );
 }
