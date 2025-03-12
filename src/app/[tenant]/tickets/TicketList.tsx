@@ -8,8 +8,15 @@ export async function TicketList({ tenant }) {
   const { data: tickets, error } = await supabase
     .from("tickets")
     .select()
+    .eq("tenant", tenant)
+    .limit(3);
+
+  const { count } = await supabase
+    .from("tickets")
+    .select("*", { count: "exact", head: true })
     .eq("tenant", tenant);
 
+  const moreRows = count - tickets.length > 0;
 
   return (
     <table>
@@ -31,6 +38,17 @@ export async function TicketList({ tenant }) {
           </tr>
         ))}
       </tbody>
+      <tfoot>
+        <tr>
+          <td>
+      {moreRows && (
+          <Link role="button" href={{ query: { page: 2 } }}>
+          Next page
+          </Link>
+        )}</td>
+      </tr>
+      </tfoot>
     </table>
+    
   );
 }
