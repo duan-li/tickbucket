@@ -1,13 +1,25 @@
 "use client";
 import { useRef } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export function TicketFilters({ tenant }) {
-  const searchInputRef = useRef(null);
-  const onSubmit = (event) => {
-    event.preventDefault();
-    const search = searchInputRef.current.value;
-    alert("Search tickets containing " + search);
-  };
+    const searchInputRef = useRef(null);
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+  
+    const onSubmit = (event) => {
+      event.preventDefault();
+      const search = searchInputRef.current.value;
+  
+      // searchParams.set("search", search);
+      const updatedParams = new URLSearchParams(searchParams);
+      updatedParams.set("search", search);
+      updatedParams.set("page", 1);
+      updatedParams.set("r", Math.random());
+  
+      router.push(pathname + "?" + updatedParams.toString());
+    };
   return (
     <form onSubmit={onSubmit}>
       <div
@@ -26,8 +38,14 @@ export function TicketFilters({ tenant }) {
           required
           style={{ margin: 0, maxWidth: "350px" }}
         />
-        <button type="submit" role="button"
-          style={{ width: "auto" }}>
+
+        <button
+          type="submit"
+          role="button"
+          style={{
+            width: "auto",
+          }}
+        >
           Search
         </button>
       </div>

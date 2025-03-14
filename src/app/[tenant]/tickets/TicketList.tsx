@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { getSupabaseCookiesUtilClient } from "@/supabase-utils/cookiesUtilClient";
 import { TICKET_STATUS } from "@/utils/constants";
+import { urlPath } from "@/utils/url-helpers";
 
 export async function TicketList({ tenant, searchParams }) {
   let page = 1;
-
   if (
     Number.isInteger(Number(searchParams.page)) &&
     Number(searchParams.page) > 0
@@ -14,20 +14,39 @@ export async function TicketList({ tenant, searchParams }) {
 
   const supabase = getSupabaseCookiesUtilClient();
 
-  const startingPoint = (page - 1) * 3;
-  const { data: tickets, error } = await supabase
-    .from("tickets")
-    .select()
-    .eq("tenant", tenant)
-    .range(startingPoint, startingPoint + 3);
-    console.log(error)
-
-  const { count } = await supabase
+  let countStatement = supabase
     .from("tickets")
     .select("*", { count: "exact", head: true })
     .eq("tenant", tenant);
 
-    const moreRows = count - page * 3 > 0;
+  const startingPoint = (page - 1) * 6;
+  let ticketsStatement = supabase.from("tickets").select().eq("tenant", tenant);
+
+  const searchValue = searchParams.search?.trim();
+  if (searchValue) {
+    const cleanSearchString = searchValue
+      .replaceAll('"', "")
+      .replaceAll("\\", "")
+      .replaceAll("%", "");
+
+    const postgrestSearchValue = '"%' + cleanSearchString + '%"';
+    const postgrestFilterString =
+      `title.ilike.${postgrestSearchValue}` +
+      `, description.ilike.${postgrestSearchValue}`;
+
+    countStatement = countStatement.or(postgrestFilterString);
+    ticketsStatement = ticketsStatement.or(postgrestFilterString);
+  }
+
+  ticketsStatement = ticketsStatement
+    .order("status", { ascending: true })
+    .order("created_at", { ascending: false })
+    .range(startingPoint, startingPoint + 5);
+
+  const { count } = await countStatement;
+  const { data: tickets } = await ticketsStatement;
+
+  const moreRows = count - page * 6 > 0;
 
   return (
     <div>
