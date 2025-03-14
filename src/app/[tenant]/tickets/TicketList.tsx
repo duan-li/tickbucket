@@ -4,6 +4,7 @@ import { TICKET_STATUS } from "@/utils/constants";
 
 export async function TicketList({ tenant, searchParams }) {
   let page = 1;
+
   if (
     Number.isInteger(Number(searchParams.page)) &&
     Number(searchParams.page) > 0
@@ -19,13 +20,14 @@ export async function TicketList({ tenant, searchParams }) {
     .select()
     .eq("tenant", tenant)
     .range(startingPoint, startingPoint + 3);
+    console.log(error)
 
   const { count } = await supabase
     .from("tickets")
     .select("*", { count: "exact", head: true })
     .eq("tenant", tenant);
 
-  const moreRows = count - tickets.length > 0;
+    const moreRows = count - page * 3 > 0;
 
   return (
     <div>
