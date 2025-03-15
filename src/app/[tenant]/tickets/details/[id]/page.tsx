@@ -1,16 +1,11 @@
-import classes from "./TicketDetails.module.css";
-import { TicketComments } from "./TicketComments";
-import { notFound } from "next/navigation";
 import { getSupabaseCookiesUtilClient } from "@/supabase-utils/cookiesUtilClient";
-// import { getSupabaseAdminClient } from "@/supabase-utils/adminClient";
-import { TICKET_STATUS } from "@/utils/constants";
+import { notFound } from "next/navigation";
+import { TicketDetails } from "./TicketDetails";
+import { headers } from "next/headers";
 
 export default async function TicketDetailsPage({ params }) {
   const supabase = getSupabaseCookiesUtilClient();
-  // const adminSupabase = getSupabaseAdminClient();
-
   const id = Number(params.id);
-
   const { data: ticket, error } = await supabase
     .from("tickets")
     .select("*")
@@ -19,32 +14,29 @@ export default async function TicketDetailsPage({ params }) {
 
   if (error) return notFound();
 
-  const {
-    created_at,
-    title,
-    description,
-    created_by,
-    status,
-    author_name
-   } = ticket;
+  const supabase_user_id = (await supabase.auth.getUser()).data.user.id;
+  const { data: serviceUser } = await supabase
+    .from("service_users")
+    .select("id")
+    .eq("supabase_user", supabase_user_id)
+    .single();
 
-  // const { data: { full_name} } = adminSupabase.from('service_users').select("id").eq('id', created_by).single();
+  const isAuthor = serviceUser.id === ticket.created_by;
+  const { created_at, title, description, created_by, status, author_name } =
+    ticket;
+
+  const dateString = new Date(created_at).toLocaleString("en-US");
 
   return (
-    <article className={classes.ticketDetails}>
-      <header>
-        <strong>#{params.id}</strong> -{" "}
-        <strong className={classes.ticketStatusGreen}>{TICKET_STATUS[status]}</strong>
-        <br />
-        <small className={classes.authorAndDate}>
-          Created by <strong>{author_name} (ID: {created_by})</strong> at{" "}
-          <time>{created_at} </time>
-        </small>
-        <h2>{title}</h2>
-      </header>
-      <section>{description}</section>
-
-      <TicketComments />
-    </article>
+    <TicketDetails
+      id={id}
+      tenant={ticket.tenant}
+      title={title}
+      description={description}
+      status={status}
+      author_name={author_name}
+      dateString={dateString}
+      isAuthor={isAuthor}
+    />
   );
 }

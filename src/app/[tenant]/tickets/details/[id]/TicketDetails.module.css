@@ -1,39 +1,35 @@
-/* ticket detail page */
 .ticketStatusGreen {
     color: greenyellow;
-}
-
-.authorAndDate {
+  }
+  
+  .authorAndDate {
     color: var(--secondary);
-}
-.authorAndDate strong {
+  }
+  .authorAndDate strong {
     color: var(--contrast);
-}
-
-.ticketDetails {
+  }
+  
+  .ticketDetails {
     border: 1px solid #3c5c60;
-}
-
-.ticketDetails > header {
+  }
+  .ticketDetails > header {
     border-bottom: 1px solid #244538;
-}
-
-/* comments */
-
-.comment {
+  }
+  
+  .comment {
     --color-card-brighter: color-mix(
-        in srgb,
-        var(--card-background-color),
-        var(--secondary) 20%
+      in srgb,
+      var(--card-background-color),
+      var(--secondary) 20%
     );
     margin: 0;
     padding: 0.7em 1em 0.7em;
     background-color: var(--color-card-brighter);
-}
-.comment:not(:last-child) {
+  }
+  .comment:not(:last-child) {
     margin-bottom: 5px;
-}
-.comment time {
+  }
+  .comment time {
     color: var(--secondary);
     padding-left: 0.5em;
-}
+  }
