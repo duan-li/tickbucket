@@ -1,31 +1,12 @@
 import { TicketList } from "./TicketList";
+import { TicketFilters } from "./TicketFilters";
 
-const dummyTickets = [
-  {
-    id: 1,
-    title: "Write Supabase Book",
-    status: "Not started",
-    author: "Chayan",
-  },
-  {
-    id: 2,
-    title: "Read more Packt Books",
-    status: "In progress",
-    author: "David",
-  },
-  {
-    id: 3,
-    title: "Make videos for the YouTube Channel",
-    status: "Done",
-    author: "David",
-  },
-];
-
-export default function TicketListPage() {
+export default function TicketListPage({params, searchParams}) {
   return (
     <>
-      <h2>Ticket List</h2>
-      <TicketList tickets={dummyTickets} />
+      <h2>Ticket List</h2>     
+      <TicketFilters tenant={params.tenant} />
+      <TicketList tenant={params.tenant} searchParams={searchParams} />
     </>
   );
 }
