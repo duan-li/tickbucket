@@ -46,7 +46,7 @@ export async function TicketList({ tenant, searchParams }) {
   const { count } = await countStatement;
   const { data: tickets } = await ticketsStatement;
 
-  const moreRows = count - page * 6 > 0;
+  const moreRows = count - page * 6 > 0; // 
 
   return (
     <div>
@@ -63,7 +63,9 @@ export async function TicketList({ tenant, searchParams }) {
             <tr key={ticket.id}>
               <td>{ticket.id}</td>
               <td>
-                <Link href={`/tickets/details/${ticket.id}`}>{ticket.title}</Link>
+                <Link href={urlPath(`/tickets/details/${ticket.id}`, tenant)}>
+                  {ticket.title}
+                </Link>
               </td>
               <td>{TICKET_STATUS[ticket.status]}</td>
             </tr>
