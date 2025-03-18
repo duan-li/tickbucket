@@ -2,7 +2,7 @@
 import { getSupabaseBrowserClient } from "@/supabase-utils/browserClient";
 import { useEffect, useState } from "react";
 
-export function AssigneeSelect({ tenant, onValueChanged }) {
+export function AssigneeSelect({ tenant, onValueChanged, initialValue }) {
   const [users, setUsers] = useState(null);
   const supabase = getSupabaseBrowserClient();
   useEffect(() => {
@@ -17,6 +17,7 @@ export function AssigneeSelect({ tenant, onValueChanged }) {
   return (
     <select
       name="assignee"
+      value={initialValue ?? ""}
       disabled={users === null}
       onChange={(e) => {
         const v = e.target.value;
