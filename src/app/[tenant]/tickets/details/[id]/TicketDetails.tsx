@@ -41,7 +41,13 @@ export function TicketDetails({
             <AssigneeSelect
               tenant={tenant}
               onValueChanged={(v) => {
-                // todo
+                supabase
+                  .from("tickets")
+                  .update({
+                    assignee: v,
+                  })
+                  .eq("id", id)
+                  .then(() => router.refresh());
               }}
               initialValue={assignee}
             />
