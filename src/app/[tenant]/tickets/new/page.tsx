@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { getSupabaseBrowserClient } from "@/supabase-utils/browserClient";
 import { urlPath } from "@/utils/url-helpers";
 import { useRouter } from "next/navigation";
+import { AssigneeSelect } from "@/components/AssigneeSelect";
 
 
 export default function CreateTicket({ params }: { params: Promise<{ tenant: string }> }) {
@@ -63,6 +64,9 @@ export default function CreateTicket({ params }: { params: Promise<{ tenant: str
         }}
       >
         <input disabled={isLoading} ref={ticketTitleRef} placeholder="Add a title" />
+        <AssigneeSelect
+          tenant={params.tenant}
+          onValueChanged={(v) => setAssignee(v)} />
         <textarea disabled={isLoading} ref={ticketDescriptionRef} placeholder="Add a comment" />
         <button disabled={isLoading} type="submit">Create ticket now</button>
       </form>

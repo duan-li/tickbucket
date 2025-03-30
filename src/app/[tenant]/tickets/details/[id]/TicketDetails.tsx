@@ -5,6 +5,7 @@ import { TicketComments } from "./TicketComments";
 import { getSupabaseBrowserClient } from "@/supabase-utils/browserClient";
 import { urlPath } from "@/utils/url-helpers";
 import { useRouter } from "next/navigation";
+import { AssigneeSelect } from "@/components/AssigneeSelect";
 
 export function TicketDetails({
   tenant,
@@ -15,6 +16,7 @@ export function TicketDetails({
   author_name,
   dateString,
   isAuthor,
+  assignee
 }) {
   const supabase = getSupabaseBrowserClient();
   const router = useRouter();
@@ -29,7 +31,26 @@ export function TicketDetails({
               {TICKET_STATUS[status]}
             </strong>
           </div>
-
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "end",
+            }}
+          >
+            <AssigneeSelect
+              tenant={tenant}
+              onValueChanged={(v) => {
+                supabase
+                  .from("tickets")
+                  .update({
+                    assignee: v,
+                  })
+                  .eq("id", id)
+                  .then(() => router.refresh());
+              }}
+              initialValue={assignee}
+            />
           {isAuthor && (
             <button
               role="button"
